@@ -24,15 +24,13 @@ TARGET_GLOBAL_CFLAGS += -mfpu=neon -mfloat-abi=softfp
 TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp
 
 # Kernel
-BOARD_KERNEL_CMDLINE := androidboot.console=ttyHSL0 androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x3F ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci androidboot.selinux=permissive
+TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/kernel
+TARGET_CUSTOM_KERNEL_HEADERS := $(LOCAL_PATH)/include
+BOARD_KERNEL_CMDLINE := androidboot.console=ttyHSL0 androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x3F ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci 
 BOARD_KERNEL_BASE := 0x80000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
-BOARD_KERNEL_TAGS_OFFSET := 0x80000100
-BOARD_RAMDISK_OFFSET := 0x01000000
-TARGET_KERNEL_SOURCE := kernel/huawei/msm8916
-TARGET_KERNEL_CONFIG := msm8916_defconfig
-BOARD_CUSTOM_BOOTIMG_MK := $(LOCAL_PATH)/mkbootimg.mk
+BOARD_MKBOOTIMG_ARGS := --dt $(LOCAL_PATH)/dt.img --kernel_offset 0x00008000 --ramdisk_offset 0x01000000 --tags_offset 0x00000100
 
 TARGET_OTA_ASSERT_DEVICE := g620s,G620S,G620S-L01
 
@@ -57,14 +55,29 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/msm_hsusb/gadget/lun%d/
 BOARD_VOLD_MAX_PARTITIONS := 30
 
 # Recovery
+COMMON_GLOBAL_CFLAGS += -DNO_SECURE_DISCARD
 TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 
+TARGET_PREBUILT_RECOVERY_KERNEL := $(LOCAL_PATH)/kernel
 TARGET_RECOVERY_INITRC := $(LOCAL_PATH)/recovery/init.rc
 
+HAVE_SELINUX := true
+
+BOARD_SEPOLICY_DIRS += \
+    $(LOCAL_PATH)/sepolicy
+
+BOARD_SEPOLICY_UNION += \
+    device.te \
+    file.te \
+    file_contexts \
+    qseecom.te
+
 # TWRP
+RECOVERY_FSTAB_VERSION := 2
+BOARD_HAS_NO_SELECT_BUTTON := true
 TW_NO_USB_STORAGE := true
 TW_MAX_BRIGHTNESS := 255
 TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/recovery/twrp.fstab

@@ -1,6 +1,0 @@
-config HUAWEI_APANIC
-	tristate "dump panic info"
-	depends on HUAWEI_KERNEL
-	default n
-	help
-	  Say Y here to enable huawei panic info dump
