@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2014 The CyanogenMod Project
+# Copyright (C) 2016 The CyanogenMod Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,63 +16,15 @@
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
-# Overlay
-DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
-
-# This device have enough room for precise davick
-PRODUCT_TAGS += dalvik.gc.type-precise
+$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 # Device uses ultra-high-density artwork where available
 PRODUCT_AAPT_CONFIG := normal hdpi xhdpi xxhdpi
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
+# Include tzdata for recovery
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/recovery/charger:root/charger \
-    $(LOCAL_PATH)/recovery/etc/ueventd.rc:root/ueventd.rc \
-    $(LOCAL_PATH)/recovery/res/images/720x1280/batt_level_scale.png:root/res/images/720x1280/batt_level_scale.png \
-    $(LOCAL_PATH)/recovery/res/images/720x1280/batt_level_top.png:root/res/images/720x1280/batt_level_top.png \
-    $(LOCAL_PATH)/recovery/res/images/720x1280/bg.png:root/res/images/720x1280/bg.png \
-    $(LOCAL_PATH)/recovery/res/images/720x1280/empty_charge.png:root/res/images/720x1280/empty_charge.png \
-    $(LOCAL_PATH)/recovery/res/images/720x1280/err_charge.png:root/res/images/720x1280/err_charge.png \
-    $(LOCAL_PATH)/recovery/res/images/720x1280/full_charge.png:root/res/images/720x1280/full_charge.png \
-    $(LOCAL_PATH)/recovery/res/images/720x1280/number_0.png:root/res/images/720x1280/number_0.png \
-    $(LOCAL_PATH)/recovery/res/images/720x1280/number_1.png:root/res/images/720x1280/number_1.png \
-    $(LOCAL_PATH)/recovery/res/images/720x1280/number_2.png:root/res/images/720x1280/number_2.png \
-    $(LOCAL_PATH)/recovery/res/images/720x1280/number_3.png:root/res/images/720x1280/number_3.png \
-    $(LOCAL_PATH)/recovery/res/images/720x1280/number_4.png:root/res/images/720x1280/number_4.png \
-    $(LOCAL_PATH)/recovery/res/images/720x1280/number_5.png:root/res/images/720x1280/number_5.png \
-    $(LOCAL_PATH)/recovery/res/images/720x1280/number_6.png:root/res/images/720x1280/number_6.png \
-    $(LOCAL_PATH)/recovery/res/images/720x1280/number_7.png:root/res/images/720x1280/number_7.png \
-    $(LOCAL_PATH)/recovery/res/images/720x1280/number_8.png:root/res/images/720x1280/number_8.png \
-    $(LOCAL_PATH)/recovery/res/images/720x1280/number_9.png:root/res/images/720x1280/number_9.png \
-    $(LOCAL_PATH)/recovery/res/images/720x1280/percent_10.png:root/res/images/720x1280/percent_10.png \
-    $(LOCAL_PATH)/recovery/res/images/720x1280/percent_5.png:root/res/images/720x1280/percent_5.png \
-    $(LOCAL_PATH)/recovery/res/images/720x1280/percent_sign.png:root/res/images/720x1280/percent_sign.png \
-    $(LOCAL_PATH)/recovery/res/images/mmi/fail.png:root/res/images/mmi/fail.png \
-    $(LOCAL_PATH)/recovery/res/images/mmi/pass.png:root/res/images/mmi/pass.png
-
-PRODUCT_PACKAGES += \
-    fstab.qcom \
-    init.class_main.sh \
-    init.mdm.sh \
-    init.qcom.class_core.sh \
-    init.qcom.early_boot.sh \
-    init.qcom.factory.sh \
-    init.qcom.sh \
-    init.qcom.ssr.sh \
-    init.qcom.syspart_fixup.sh \
-    init.qcom.usb.sh \
-    ueventd.qcom.rc
-
-PRODUCT_PACKAGES += \
-    huawei_version \
-    hw_scsi_switch \
-    libqmi_oem_main \
-    rmt_oeminfo \
-    rmt_storage \
-    test_diag \
-    test_oeminfo \
-    usb_update
+    bionic/libc/zoneinfo/tzdata:recovery/root/system/usr/share/zoneinfo/tzdata
 
 $(call inherit-product, build/target/product/full.mk)
 
