@@ -1,9 +1,9 @@
 # g620s_twrp
 
 
-== TWRP 2.8.6.0 For Huawei Ascend G620S ==
+== TWRP 2.8.7.0 For Huawei Ascend G620S ==
 
-* builded along with CyanogenMod instead OmniRom 
+* builded along with CyanogenMod 13.0 instead OmniRom 
 
-*** FIX sometimes issues, regarding device boot loop into TWRP recovery !
+- contributors : @surdu_petru & @dianlujitao 
 
